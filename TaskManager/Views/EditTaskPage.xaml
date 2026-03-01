@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:TaskManager.ViewModels"
+             x:Class="TaskManager.Views.EditTaskPage"
+             x:DataType="viewmodels:EditTaskViewModel"
+             Title="Edit Task"
+             BackgroundColor="#1C1C1E">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header -->
+            <Label Text="Edit Task" 
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+
+            <!-- Task Details -->
+            <Border Stroke="LightGray" 
+                    StrokeThickness="1"
+                    Padding="15" 
+                    BackgroundColor="#2C2C2E">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Task Name" 
+                           FontSize="14"
+                           TextColor="#8E8E93"/>
+                    <Entry Placeholder="Enter task name"
+                           Text="{Binding TaskName}"
+                           PlaceholderColor="Gray"
+                           TextColor="White"/>
+
+                    <Label Text="Description" 
+                           FontSize="14"
+                           TextColor="#8E8E93"
+                           Margin="0,10,0,0"/>
+                    <Entry Placeholder="Enter task description (optional)"
+                           Text="{Binding TaskDescription}"
+                           PlaceholderColor="Gray"
+                           TextColor="White"/>
+
+                    <Label Text="Category" 
+                           FontSize="14"
+                           TextColor="#8E8E93"
+                           Margin="0,10,0,0"/>
+                    <Picker SelectedItem="{Binding SelectedCategory}"
+                            Title="Choose a category"
+                            TextColor="White"
+                            TitleColor="#8E8E93">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Work</x:String>
+                                <x:String>Personal</x:String>
+                                <x:String>Shopping</x:String>
+                                <x:String>Health</x:String>
+                                <x:String>Education</x:String>
+                                <x:String>Programming</x:String>
+                                <x:String>Learning</x:String>
+                                <x:String>Other</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <Label Text="Due Date" 
+                           FontSize="14"
+                           TextColor="#8E8E93"
+                           Margin="0,10,0,0"/>
+                    <DatePicker Date="{Binding DueDate}"
+                                Format="D"
+                                TextColor="White"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Status Section -->
+            <Border Stroke="LightGray" 
+                    StrokeThickness="1"
+                    Padding="15" 
+                    BackgroundColor="#2C2C2E">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Task Status" 
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding IsCompleted}"
+                                  Color="#28A745"/>
+                        <Label Text="Mark as completed"
+                               FontSize="16"
+                               TextColor="White"
+                               VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Action Buttons -->
+            <VerticalStackLayout Spacing="15" Margin="0,20,0,0">
+                <Button Text="Save Changes"
+                        Command="{Binding SaveCommand}"
+                        BackgroundColor="#007AFF"
+                        TextColor="White"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        Padding="20"
+                        CornerRadius="15"/>
+
+                <Button Text="Delete Task"
+                        Command="{Binding DeleteCommand}"
+                        BackgroundColor="#DC3545"
+                        TextColor="White"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        Padding="20"
+                        CornerRadius="15"/>
+
+                <Button Text="Cancel"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="#6C757D"
+                        TextColor="White"
+                        FontSize="16"
+                        Padding="15"
+                        CornerRadius="15"/>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

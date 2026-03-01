@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:TaskManager.ViewModels"
+             xmlns:models="clr-namespace:TaskManager.Models"
+             x:Class="TaskManager.Views.HomePage"
+             x:DataType="viewmodels:HomeViewModel"
+             BackgroundColor="#1C1C1E"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+
+            <!-- Header -->
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Grid.Column="0"
+                       Text="My Task"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       VerticalOptions="Center"/>
+
+                <Border Grid.Column="1"
+                        BackgroundColor="#007AFF"
+                        Padding="8,6"
+                        StrokeThickness="0"
+                        VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <Label Text="✓"
+                           TextColor="White"
+                           FontSize="16"
+                           FontAttributes="Bold"/>
+                </Border>
+            </Grid>
+
+            <!-- Categories Section -->
+            <VerticalStackLayout Spacing="15" IsVisible="{Binding AreSectionsVisible}">
+                <Label Text="CATEGORIES"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#8E8E93"/>
+
+                <CollectionView ItemsSource="{Binding Categories}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CategoryItem">
+                            <Border Margin="0,5"
+                                    BackgroundColor="#2C2C2E"
+                                    Padding="20"
+                                    StrokeThickness="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="15"/>
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=CategorySelectedCommand}"
+                                                          CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="50,*,Auto" ColumnSpacing="15">
+                                    <Border Grid.Column="0"
+                                            BackgroundColor="{Binding IconBackgroundColor}"
+                                            WidthRequest="50"
+                                            HeightRequest="50"
+                                            StrokeThickness="0">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="12"/>
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding Icon}"
+                                               FontSize="24"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"/>
+                                    </Border>
+
+                                    <VerticalStackLayout Grid.Column="1" 
+                                                         Spacing="5"
+                                                         VerticalOptions="Center">
+                                        <Label Text="{Binding Name}"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="White"/>
+                                        <Label Text="{Binding Description}"
+                                               FontSize="13"
+                                               TextColor="#8E8E93"/>
+                                    </VerticalStackLayout>
+
+                                    <Label Grid.Column="2"
+                                           Text="{Binding TaskCountText}"
+                                           FontSize="14"
+                                           TextColor="#8E8E93"
+                                           VerticalOptions="Start"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <!-- Pending Tasks Section -->
+            <VerticalStackLayout Spacing="15" IsVisible="{Binding AreSectionsVisible}">
+                <Label Text="PENDING TASK"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#8E8E93"/>
+
+                <CollectionView ItemsSource="{Binding PendingTasks}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:PendingTaskItem">
+                            <Border Margin="0,5"
+                                    BackgroundColor="#2C2C2E"
+                                    Padding="15"
+                                    StrokeThickness="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12"/>
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=PendingTaskSelectedCommand}"
+                                                          CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="{Binding Name}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="White"/>
+                                    <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="10">
+                                        <Label Grid.Column="0"
+                                               Text="{Binding Category}"
+                                               FontSize="12"
+                                               TextColor="#8E8E93"/>
+                                        <Border Grid.Column="1"
+                                                BackgroundColor="{Binding DueDateColor}"
+                                                Padding="6,2"
+                                                StrokeThickness="0">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="4"/>
+                                            </Border.StrokeShape>
+                                            <Label Text="{Binding DueDateText}"
+                                                   FontSize="11"
+                                                   TextColor="White"/>
+                                        </Border>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <!-- Empty State -->
+            <VerticalStackLayout Spacing="15" 
+                                 Padding="40"
+                                 VerticalOptions="Center"
+                                 IsVisible="{Binding IsEmptyStateVisible}">
+                <Label Text="📝"
+                       FontSize="60"
+                       HorizontalOptions="Center"/>
+                <Label Text="No Tasks Yet"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+                <Label Text="Start adding tasks to stay organized and productive!"
+                       FontSize="14"
+                       TextColor="#8E8E93"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Add Task Button -->
+            <Button Text="+ Add New Task"
+                    Command="{Binding AddTaskCommand}"
+                    BackgroundColor="#007AFF"
+                    TextColor="White"
+                    FontSize="18"
+                    FontAttributes="Bold"
+                    Padding="20"
+                    CornerRadius="15"
+                    Margin="0,20,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

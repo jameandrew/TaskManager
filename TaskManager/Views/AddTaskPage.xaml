@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:TaskManager.ViewModels"
+             x:Class="TaskManager.Views.AddTaskPage"
+             x:DataType="viewmodels:AddTaskViewModel"
+             Title="Add Task"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Header -->
+            <Label Text="Add New Task" 
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <!-- Category Selection -->
+            <Border Stroke="LightGray" 
+                    StrokeThickness="1"
+                    Padding="15"
+                    BackgroundColor="White">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Select Category" 
+                           FontSize="18"
+                           FontAttributes="Bold"/>
+
+                    <Picker x:Name="CategoryPicker"
+                            Title="Choose a category"
+                            ItemsSource="{Binding AvailableCategories}"
+                            SelectedItem="{Binding SelectedCategory}"/>
+
+                    <!-- Custom Category Input -->
+                    <VerticalStackLayout IsVisible="{Binding IsCustomCategoryVisible}" Spacing="10">
+                        <Label Text="Enter Custom Category Name" 
+                               FontSize="14"
+                               TextColor="Gray"/>
+                        <Entry Placeholder="e.g., Gaming, Music, etc."
+                               Text="{Binding CustomCategoryName}"
+                               PlaceholderColor="Gray"/>
+                        <Button Text="Add Category"
+                                Command="{Binding AddCustomCategoryCommand}"
+                                BackgroundColor="#28A745"
+                                TextColor="White"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Add Task Section -->
+            <Border Stroke="LightGray" 
+                    StrokeThickness="1"
+                    Padding="15" 
+                    IsVisible="{Binding IsAddTaskVisible}"
+                    BackgroundColor="White">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Task Details" 
+                           FontSize="18"
+                           FontAttributes="Bold"/>
+
+                    <Entry Placeholder="Enter task name"
+                           Text="{Binding TaskName}"
+                           PlaceholderColor="Gray"/>
+
+                    <Entry Placeholder="Enter task description (optional)"
+                           Text="{Binding TaskDescription}"
+                           PlaceholderColor="Gray"/>
+
+                    <DatePicker Date="{Binding DueDate}"
+                                Format="D"/>
+
+                    <Button Text="Add Task"
+                            Command="{Binding AddTaskCommand}"
+                            BackgroundColor="#007AFF"
+                            TextColor="White"/>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
